@@ -333,6 +333,30 @@ NAV_CLS = core.Cls(0x01, 'NAV', [
         core.Field('ttff', 'U4'),
         core.Field('msss', 'U4'),
     ]),
+    core.Message(0x06, 'SOL', [
+        core.Field('iTOW', 'U4'),
+        core.Field('fTOW', 'I4'),
+        core.Field('week', 'I2'),
+        core.Field('gpsFix', 'U1'),
+        core.BitField('flags', 'X1',[
+            core.Flag('GPSfixOK', 0, 1),
+            core.Flag('DiffSoln', 1, 2),
+            core.Flag('WKNSET', 2, 3),
+            core.Flag('TOWSET', 3, 4),
+        ]),
+        core.Field('ecefX', 'I4'),
+        core.Field('ecefY', 'I4'),
+        core.Field('ecefZ', 'I4'),
+        core.Field('pAcc', 'U4'),
+        core.Field('ecefVX', 'I4'),
+        core.Field('ecefVY', 'I4'),
+        core.Field('ecefVZ', 'I4'),
+        core.Field('sAcc', 'U4'),
+        core.Field('pDOP', 'U2'),
+        core.PadByte(),
+        core.Field('numSV', 'U1'),
+        core.PadByte(repeat=3),
+    ]),
     core.Message(0x30, 'SVINFO', [
         core.Field('iTOW', 'U4'),
         core.Field('numCh', 'U1'),
@@ -362,6 +386,18 @@ NAV_CLS = core.Cls(0x01, 'NAV', [
             core.Field('prRes', 'I4'),
         ]),
     ]),
+    core.Message(0x20, 'TIMEGPS', [
+        core.Field('iTOW', 'U4'),
+        core.Field('fTOW', 'I4'),
+        core.Field('week', 'I2'),
+        core.Field('leapS', 'I1'),
+        core.BitField('valid', 'X1', [
+            core.Flag('towValid', 0, 1),
+            core.Flag('weekValid', 1, 2),
+            core.Flag('leapSValid', 2, 3),
+        ]),
+        core.Field('tAcc', 'U4'),
+    ]),
     core.Message(0x21, 'TIMEUTC', [
         core.Field('iTOW', 'U4'),
         core.Field('tAcc', 'U4'),
@@ -378,6 +414,24 @@ NAV_CLS = core.Cls(0x01, 'NAV', [
             core.Flag('validUTC', 2, 3),
             core.Flag('utcStandard', 4, 8),
         ]),
+    ]),
+    core.Message(0x26, 'TIMELS', [
+        core.Field('iTOW', 'U4'),
+        core.Field('version', 'U1'),
+        core.PadByte(repeat=2),
+        core.Field('srcOfCurrLs', 'U1'),
+        core.Field('CurrLs', 'I1'),
+        core.Field('srcOfLsChange', 'U1'),
+        core.Field('lsChange', 'I1'),
+        core.Field('timeToLsEvent', 'I4'),
+        core.Field('dateOfLsGpsWn', 'U2'),
+        core.Field('dateOfLsGpsn', 'U2'),
+        core.PadByte(repeat=2),
+        core.BitField('valid', 'X1', [
+            core.Flag('validCurrLs', 0, 1),
+            core.Flag('validTimeToLsEvent', 1, 2),
+        ]),
+
     ]),
     core.Message(0x11, 'VELECEF', [
         core.Field('iTOW', 'U4'),
@@ -398,3 +452,4 @@ NAV_CLS = core.Cls(0x01, 'NAV', [
         core.Field('cAcc', 'U4'),
     ]),
 ])
+
