@@ -390,6 +390,8 @@ class Parser:
             buff = self._read_until(stream, terminator=self.PREFIX)
             if buff[-2:] == self.PREFIX:
                 break
+            elif len(buff) == 0:
+                raise EOFError("end of file")
 
         # read the first four bytes
         buff = stream.read(4)
