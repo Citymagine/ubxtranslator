@@ -313,7 +313,7 @@ NAV_CLS = core.Cls(0x01, 'NAV', [
             core.Field('prc', 'I2'),
         ])
     ]),
-    core.Message(0x06, 'STATUS', [
+    core.Message(0x03, 'STATUS', [
         core.Field('iTOW', 'U4'),
         core.Field('gpsFix', 'U1'),
         core.BitField('flags', 'X1', [
