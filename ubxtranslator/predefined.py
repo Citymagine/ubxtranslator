@@ -468,6 +468,39 @@ RXM_CLS = core.Cls(0x02, 'RXM', [
             core.Field('dwrd','U4'),
         ])
     ]),
+    core.Message(0x14, 'MEASX', [
+        core.Field('version','U1'),
+        core.PadByte(repeat=2),
+        core.Field('gpsTOW','U4'),
+        core.Field('gloTOW','U4'),
+        core.Field('bdsTOW','U4'),
+        core.PadByte(repeat=3),
+        core.Field('qzssTOW','U4'),
+        core.Field('gpsTOWacc','U2'),
+        core.Field('gloTOWacc','U2'),
+        core.Field('bdsTOWacc','U2'),
+        core.PadByte(repeat=1),
+        core.Field('qzssTOWacc','U2'),
+        core.Field('numSV','U1'),
+        core.BitField('flags','X1',[
+            core.Flag('towSet', 0, 2)
+        ]),
+        core.PadByte(repeat=7),
+        core.RepeatedBlock('RB', [
+            core.Field('gnssId','U1'),
+            core.Field('svId','U1'),
+            core.Field('cNo','U1'),
+            core.Field('mpathIndic','U1'),
+            core.Field('dopplerMS','I4'),
+            core.Field('dopplerHz','I4'),
+            core.Field('wholeChips','U2'),
+            core.Field('fracChips','U2'),
+            core.Field('codePhase','U4'),
+            core.Field('intCodePhase','U1'),
+            core.Field('pseuRangeRMSErr','U1'),
+            core.PadByte(repeat=1),
+        ])
+    ]),
     core.Message(0x15, 'RAWX', [
         core.Field('rcvTow', 'R8'),
         core.Field('week', 'U2'),
