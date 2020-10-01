@@ -2,7 +2,7 @@
 
 from . import core
 
-__all__ = ['ACK_CLS', 'NAV_CLS', ]
+__all__ = ['ACK_CLS', 'NAV_CLS', 'RXM_CLS' ]
 
 ACK_CLS = core.Cls(0x05, 'ACK', [
     core.Message(0x01, 'ACK', [
@@ -453,3 +453,58 @@ NAV_CLS = core.Cls(0x01, 'NAV', [
     ]),
 ])
 
+
+RXM_CLS = core.Cls(0x02, 'RXM', [
+    core.Message(0x13, 'SFRBX', [
+        core.Field('gnssId','U1'),
+        core.Field('svId','U1'),
+        core.PadByte(),
+        core.Field('freqId','U1'),
+        core.Field('numWords','U1'),
+        core.Field('chn','U1'),
+        core.Field('version','U1'),
+        core.PadByte(),
+        core.RepeatedBlock('RB', [
+            core.Field('dwrd','U4'),
+        ])
+    ]),
+    core.Message(0x15, 'RAWX', [
+        core.Field('rcvTow', 'R8'),
+        core.Field('week', 'U2'),
+        core.Field('leapS', 'I1'),
+        core.Field('numMeas', 'U1'),
+        core.BitField('recStat', 'X1', [
+            core.Flag('leapSec', 0, 1),
+            core.Flag('clkReset', 1, 2),
+        ]),
+        core.Field('version', 'U1'),
+        core.PadByte(repeat=1),
+        core.RepeatedBlock('RB', [
+            core.Field('prMes','R8'),
+            core.Field('cpMes','R8'),
+            core.Field('doMes','R4'),
+            core.Field('gnssId','U1'),
+            core.Field('svId','U1'),
+            core.Field('sigId','U1'),
+            core.Field('freqId','U1'),
+            core.Field('locktime','U2'),
+            core.Field('cno','U1'),
+            core.BitField('prStdev','X1', [
+                core.Flag('prStd', 0, 4),
+            ]),
+            core.BitField('cpStdev','X1', [
+                core.Flag('cpStd', 0, 4),
+            ]),
+            core.BitField('doStdev','X1', [
+                core.Flag('doStd', 0, 4),
+            ]),
+            core.BitField('trkStat','X1', [
+                core.Flag('prValid', 0, 1),
+                core.Flag('cpValid', 1, 2),
+                core.Flag('halfCyc', 2, 3),
+                core.Flag('subHalfCyc', 3, 4),
+            ]),
+            core.PadByte(),
+        ])
+    ])
+])
