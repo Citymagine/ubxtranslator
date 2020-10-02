@@ -2,7 +2,7 @@
 
 from . import core
 
-__all__ = ['ACK_CLS', 'NAV_CLS', 'RXM_CLS' ]
+__all__ = ['ACK_CLS', 'NAV_CLS', 'RXM_CLS', 'MON_CLS' ]
 
 ACK_CLS = core.Cls(0x05, 'ACK', [
     core.Message(0x01, 'ACK', [
@@ -540,4 +540,35 @@ RXM_CLS = core.Cls(0x02, 'RXM', [
             core.PadByte(),
         ])
     ])
+])
+
+MON_CLS = core.Cls(0x0a, 'MON', [
+    core.Message(0x08, 'TXBUF', [
+        core.Field('pending1','U2'),
+        core.Field('pending2','U2'),
+        core.Field('pending3','U2'),
+        core.Field('pending4','U2'),
+        core.Field('pending5','U2'),
+        core.Field('pending6','U2'),
+        core.Field('usage1','U1'),
+        core.Field('usage2','U1'),
+        core.Field('usage3','U1'),
+        core.Field('usage4','U1'),
+        core.Field('usage5','U1'),
+        core.Field('usage6','U1'),
+        core.Field('peakUsage1','U1'),
+        core.Field('peakUsage2','U1'),
+        core.Field('peakUsage3','U1'),
+        core.Field('peakUsage4','U1'),
+        core.Field('peakUsage5','U1'),
+        core.Field('peakUsage6','U1'),
+        core.Field('tUsage','U1'),
+        core.Field('tpeakUsage','U1'),
+        core.BitField('errors','X1', [
+            core.Flag('limit', 0, 6),
+            core.Flag('mem', 6, 7),
+            core.Flag('alloc', 7, 8),
+        ]),
+        core.PadByte(),
+    ]),
 ])
