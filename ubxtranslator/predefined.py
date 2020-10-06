@@ -181,7 +181,8 @@ NAV_CLS = core.Cls(0x01, 'NAV', [
         core.BitField('flags', 'X1', [
             core.Flag('gnssFixOK', 0, 1),
             core.Flag('diffSoln', 1, 2),
-            core.Flag('headVehValid', 2, 5),
+            core.Flag('psmState', 2, 5),
+            core.Flag('headVehValid', 5, 6),
             core.Flag('carrSoln', 6, 8),
         ]),
         core.BitField('flags2', 'X1', [
@@ -204,7 +205,10 @@ NAV_CLS = core.Cls(0x01, 'NAV', [
         core.Field('sAcc', 'U4'),
         core.Field('headAcc', 'U4'),
         core.Field('pDOP', 'U2'),
-        core.PadByte(5),
+        core.BitField('flags3', 'X1', [
+            core.Flag('invalidLlh', 0, 1),
+        ]),
+        core.PadByte(repeat=4),
         core.Field('headVeh', 'I4'),
         core.Field('magDec', 'I2'),
         core.Field('magAcc', 'U2'),
